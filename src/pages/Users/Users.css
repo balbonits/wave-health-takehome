@@ -52,3 +52,15 @@
 .loading {
   @apply text-center py-8 text-gray-500;
 }
+
+.user-detail {
+  @apply flex flex-col;
+}
+
+.user-detail label {
+  @apply text-sm font-medium text-gray-700 mb-1;
+}
+
+.user-detail span {
+  @apply text-gray-900;
+}

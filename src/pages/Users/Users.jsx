@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+
+import Modal from '../../components/Modal/Modal';
+
 import './Users.css';
 
 const Users = () => {
@@ -6,6 +9,8 @@ const Users = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch users from API
   useEffect(() => {
@@ -51,6 +56,12 @@ const Users = () => {
     setSortConfig({ key, direction });
   };
 
+  // Modal functions
+  const toggleModal = (user) => {
+    setSelectedUser(user || null);
+    setIsModalOpen(!isModalOpen);
+  };
+
   // loading state
   if (loading) {
     return <div className="loading">Loading users...</div>
@@ -90,7 +101,11 @@ const Users = () => {
           </thead>
           <tbody>
             {sortedUsers.map(user => (
-              <tr key={user.id} className="table-row">
+              <tr 
+                key={user.id} 
+                className="table-row clickable-row"
+                onClick={() => toggleModal(user)}
+              >
                 <td className="table-cell">{user.name}</td>
                 <td className="table-cell">{user.email}</td>
                 <td className="table-cell">{user.phone}</td>
@@ -105,6 +120,51 @@ const Users = () => {
       {sortedUsers.length === 0 && !loading && (
         <div className="no-results">No users found matching your search.</div>
       )}
+
+      {/* User Detail Modal */}
+      <Modal 
+        isOpen={isModalOpen}
+        title={selectedUser?.name || 'User Details'}
+        toggleModal={toggleModal}
+      >
+        {selectedUser && (
+          <>
+            <div className="user-detail">
+              <label>Email:</label>
+              <span>{selectedUser.email}</span>
+            </div>
+            
+            <div className="user-detail">
+              <label>Phone:</label>
+              <span>{selectedUser.phone}</span>
+            </div>
+            
+            <div className="user-detail">
+              <label>Website:</label>
+              <span>{selectedUser.website}</span>
+            </div>
+            
+            <div className="user-detail">
+              <label>Address:</label>
+              <span>
+                {selectedUser.address?.street}, {selectedUser.address?.city} {selectedUser.address?.zipcode}
+              </span>
+            </div>
+            
+            <div className="user-detail">
+              <label>Company:</label>
+              <span>{selectedUser.company?.name}</span>
+            </div>
+            
+            {selectedUser.company?.catchPhrase && (
+              <div className="user-detail">
+                <label>Slogan:</label>
+                <span>{selectedUser.company.catchPhrase}</span>
+              </div>
+            )}
+          </>
+        )}
+      </Modal>
     </div>
   );
 };
