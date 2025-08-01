@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addLocalUser } from '../utils/storage';
+import { addLocalUser } from '../../utils/storage';
 import './AddUser.css';
 
 const AddUser = () => {
