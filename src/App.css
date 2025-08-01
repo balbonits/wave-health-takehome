@@ -1,42 +1,62 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* Navigation */
+.nav {
+  @apply bg-blue-600 text-white p-4;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.nav-container {
+  @apply max-w-6xl mx-auto flex justify-between items-center;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.nav-title {
+  @apply text-xl font-bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.nav-links {
+  @apply flex gap-4;
 }
 
-.card {
-  padding: 2em;
+.nav-link {
+  @apply text-white no-underline transition-colors hover:text-blue-200;
 }
 
-.read-the-docs {
-  color: #888;
+/* Main layout */
+.main-content {
+  @apply max-w-6xl mx-auto p-6;
+}
+
+.app {
+  @apply min-h-screen bg-gray-50;
+}
+
+/* Users page */
+.users-header {
+  @apply text-2xl font-bold mb-4;
+}
+
+.users-table {
+  @apply bg-white rounded-lg shadow overflow-hidden;
+}
+
+.table {
+  @apply w-full border-collapse;
+}
+
+.table-header {
+  @apply bg-gray-50 border-b border-gray-200;
+}
+
+.table-header th {
+  @apply px-3 py-3 text-left font-medium text-gray-700;
+}
+
+.table-row {
+  @apply border-b border-gray-100 hover:bg-gray-50 transition-colors;
+}
+
+.table-cell {
+  @apply px-3 py-3 text-gray-700;
+}
+
+.loading {
+  @apply text-center py-8 text-gray-500;
 }
