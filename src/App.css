@@ -29,36 +29,3 @@
 .app {
   @apply min-h-screen bg-gray-50;
 }
-
-/* Users page */
-.users-header {
-  @apply text-2xl font-bold mb-4;
-}
-
-.users-table {
-  @apply bg-white rounded-lg shadow overflow-hidden;
-}
-
-.table {
-  @apply w-full border-collapse;
-}
-
-.table-header {
-  @apply bg-gray-50 border-b border-gray-200;
-}
-
-.table-header th {
-  @apply px-3 py-3 text-left font-medium text-gray-700;
-}
-
-.table-row {
-  @apply border-b border-gray-100 hover:bg-gray-50 transition-colors;
-}
-
-.table-cell {
-  @apply px-3 py-3 text-gray-700;
-}
-
-.loading {
-  @apply text-center py-8 text-gray-500;
-}
