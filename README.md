@@ -1,45 +1,37 @@
-# User Dashboard - React Application
+# User Dashboard
 
-A modern, responsive user management dashboard built with React 19, featuring user listing, search functionality, detailed user views, and the ability to add new users with comprehensive form validation.
+A React-based user management interface that combines external API data with local storage. Built as part of a take-home assignment to demonstrate modern frontend development practices.
 
-## 🌐 Live Demo
+## Live Demo
 
-**[View Live Application](https://user-dash-takehome-balbonits-john-diligs-projects.vercel.app/)**
+**[View Application](https://user-dash-takehome-balbonits-john-diligs-projects.vercel.app/)**
 
-Experience the full functionality of the User Dashboard deployed on Vercel. The live demo includes all features: user listing, search, sorting, detailed user views, and the ability to add new users with form validation.
+The application is deployed on Vercel and includes user listing, search, modal details, and a form to add new users.
 
-## 🚀 Features
+## Features
 
-### Core Functionality
-- **User Management**: View, search, and manage users from multiple data sources
-- **Add User**: Create new users with comprehensive form validation
-- **Responsive Design**: Mobile-first approach with Tailwind CSS
-- **Real-time Search**: Filter users by name or email with instant results
-- **Sortable Columns**: Click column headers to sort user data
-- **User Details Modal**: Click any user row to view detailed information
+**Core functionality:**
+- User listing with search and sort capabilities
+- Modal-based user detail views
+- Add user form with validation
+- Responsive design for mobile/desktop
+- Network status monitoring
+- Data persistence using localStorage
 
-### Data Management
-- **Hybrid Data Sources**: Combines external API data with local storage
-- **Offline Support**: Network status monitoring with offline indicators
-- **Data Persistence**: Local users are saved to browser localStorage
-- **Error Recovery**: Graceful error handling with retry mechanisms
+**Technical highlights:**
+- Combines JSONPlaceholder API with local data
+- Context-based state management
+- Comprehensive test coverage with Vitest
+- Error boundaries and loading states
 
-### User Experience
-- **Loading States**: Elegant loading spinners during data fetching
-- **Toast Notifications**: Success and error feedback for user actions
-- **Form Validation**: Real-time validation with helpful error messages
-- **Accessibility**: ARIA labels and keyboard navigation support
-- **Performance Optimized**: Memoized components and optimized re-renders
+## Tech Stack
 
-## 🛠️ Technical Stack
-
-- **Frontend Framework**: React 19 with functional components and hooks
-- **Build Tool**: Vite for fast development and optimized builds
-- **Styling**: Tailwind CSS 4.x with custom component styles
-- **Routing**: React Router DOM v7 for client-side navigation
-- **State Management**: React Context API with custom hooks
-- **Testing**: Vitest + React Testing Library for comprehensive test coverage
-- **Data Source**: JSONPlaceholder API + localStorage for user data
+- React 19 with hooks and functional components
+- Vite for build tooling and development server
+- Tailwind CSS for styling
+- React Router DOM for navigation
+- Vitest + React Testing Library for testing
+- JSONPlaceholder API for demo data
 
 ## 📦 Installation & Setup
 
