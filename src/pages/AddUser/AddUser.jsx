@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addLocalUser } from '../../utils/storage';
+import { useUsers } from '../../context/UserContext';
 import './AddUser.css';
 
 const AddUser = () => {
   const navigate = useNavigate();
+  const { addUser } = useUsers();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -66,8 +67,8 @@ const AddUser = () => {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 800));
       
-      // Save user to localStorage
-      const newUser = addLocalUser(formData);
+      // Add user through context
+      const newUser = await addUser(formData);
       console.log('User added:', newUser);
       
       // Navigate back to users page

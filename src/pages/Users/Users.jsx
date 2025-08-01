@@ -1,41 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import { getLocalUsers } from '../../utils/storage';
+import { useUsers } from '../../context/UserContext';
 import Modal from '../../components/Modal/Modal';
 
 import './Users.css';
 
 const Users = () => {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { users, loading, error } = useUsers();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Fetch users
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        // from API
-        const response = await fetch('https://jsonplaceholder.typicode.com/users');
-        const apiUsers = await response.json();
-        
-        // from localStorage
-        const localUsers = getLocalUsers();
-        
-        // Combine API and localStorage results
-        const allUsers = [...apiUsers, ...localUsers];
-        setUsers(allUsers);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-        setLoading(false);
-      }
-    };
-
-    loadUsers();
-  }, []);
 
   // Filter users based on search term
   const filteredUsers = users.filter(user => 
@@ -71,16 +46,28 @@ const Users = () => {
   const toggleModal = (user = null) => {
     if (user) {
       setSelectedUser(user);
-      setIsModalOpen(true); // Always correct
+      setIsModalOpen(true);
     } else {
       setSelectedUser(null);
-      setIsModalOpen(false); // Always correct
+      setIsModalOpen(false);
     }
   };
 
-  // loading state
+  // Loading state
   if (loading) {
-    return <div className="loading">Loading users...</div>
+    return <div className="loading">Loading users...</div>;
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-message">Error loading users: {error}</div>
+        <button onClick={() => window.location.reload()} className="retry-btn">
+          Retry
+        </button>
+      </div>
+    );
   }
 
   return (

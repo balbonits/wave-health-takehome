@@ -49,10 +49,12 @@
   @apply px-3 py-3 text-gray-700;
 }
 
+/* Loading */
 .loading {
   @apply text-center py-8 text-gray-500;
 }
 
+/* User Detail */
 .user-detail {
   @apply flex flex-col;
 }
@@ -67,4 +69,17 @@
 
 .local-badge {
   @apply bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full ml-2;
+}
+
+/* Error Message */
+.error-container {
+  @apply text-center py-8;
+}
+
+.error-message {
+  @apply text-red-600 mb-4;
+}
+
+.retry-btn {
+  @apply bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors;
 }
