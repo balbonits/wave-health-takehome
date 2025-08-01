@@ -8,19 +8,19 @@ import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import './Users.css';
 
 const Users = () => {
-  const { users, loading, error } = useUsers();
+  const { users, loading, error, isOnline, retryLoadUsers } = useUsers();
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Memoized normalized search term
+  // Memoize normalized search term
   const normalizedSearchTerm = useMemo(() => 
     searchTerm.toLowerCase().trim(), 
     [searchTerm]
   );
 
-  // Memoized filtered users
+  // Memoize filtered users
   const filteredUsers = useMemo(() => 
     users.filter(user => 
       user.name.toLowerCase().includes(normalizedSearchTerm) ||
@@ -29,7 +29,7 @@ const Users = () => {
     [users, normalizedSearchTerm]
   );
 
-  // Memoized sorted users
+  // Memoize sorted users
   const sortedUsers = useMemo(() => {
     if (!sortConfig.key) return filteredUsers;
 
@@ -47,7 +47,7 @@ const Users = () => {
     });
   }, [filteredUsers, sortConfig]);
 
-  // Memoized sort handler
+  // Memoize sort handler
   const handleSort = useCallback((key) => {
     setSortConfig(prev => ({
       key,
@@ -55,7 +55,7 @@ const Users = () => {
     }));
   }, []);
 
-  // Memoized modal handlers
+  // Memoize modal handlers
   const toggleModal = useCallback((user = null) => {
     if (user) {
       setSelectedUser(user);
@@ -66,27 +66,31 @@ const Users = () => {
     }
   }, []);
 
-  // Loading state (with spinner)
+  // Loading state with better spinner
   if (loading) {
     return <LoadingSpinner message="Loading users..." />;
   }
 
-  // Error state
-  if (error) {
-    return (
-      <div className="error-container">
-        <div className="error-message">Error loading users: {error}</div>
-        <button onClick={() => window.location.reload()} className="retry-btn">
-          Retry
-        </button>
-      </div>
-    );
-  }
-
   return (
     <div>
+      {/* Error banner */}
+      {error && (
+        <div className="error-banner">
+          <div className="error-banner-content">
+            <span className="error-icon">⚠️</span>
+            <span className="error-text">{error}</span>
+            <button onClick={retryLoadUsers} className="error-retry">
+              Retry
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Users counter */}
-      <h2 className="users-header">Users ({sortedUsers.length})</h2>
+      <h2 className="users-header">
+        Users ({sortedUsers.length})
+        {!isOnline && <span className="offline-indicator">(Offline)</span>}
+      </h2>
       
       {/* Search input */}
       <div className="search-container">
@@ -130,7 +134,9 @@ const Users = () => {
 
       {/* No results message */}
       {sortedUsers.length === 0 && !loading && (
-        <div className="no-results">No users found matching your search.</div>
+        <div className="no-results">
+          {users.length === 0 ? 'No users available.' : 'No users found matching your search.'}
+        </div>
       )}
 
       {/* User Detail Modal */}

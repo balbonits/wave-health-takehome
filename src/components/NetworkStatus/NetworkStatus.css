@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+.network-status {
+  @apply fixed top-16 left-1/2 transform -translate-x-1/2 z-40;
+  @apply px-4 py-2 rounded-lg shadow-lg text-sm font-medium;
+  animation: slideDown 0.3s ease-out;
+}
+
+.network-status.offline {
+  @apply bg-yellow-500 text-white;
+}
+
+.status-icon {
+  @apply mr-2;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
