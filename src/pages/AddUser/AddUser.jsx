@@ -72,7 +72,7 @@ const AddUser = () => {
       console.log('User added:', newUser);
       
       // Navigate back to users page
-      navigate('/users');
+      navigate('/');
     } catch (error) {
       console.error('Error adding user:', error);
       // TODO: Show error message to user
@@ -82,7 +82,7 @@ const AddUser = () => {
   };
 
   const handleCancel = () => {
-    navigate('/users');
+    navigate('/');
   };
 
   return (

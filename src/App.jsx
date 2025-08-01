@@ -13,7 +13,7 @@ const App = () => {
             <div className="nav-container">
               <h1 className="nav-title">User Dashboard</h1>
               <div className="nav-links">
-                <Link to="/users" className="nav-link">Users</Link>
+                <Link to="/" className="nav-link">Users</Link>
                 <Link to="/add-user" className="nav-link">Add User</Link>
               </div>
             </div>
@@ -22,7 +22,6 @@ const App = () => {
           <main className="main-content">
             <Routes>
               <Route path="/" element={<Users />} />
-              <Route path="/users" element={<Users />} />
               <Route path="/add-user" element={<AddUser />} />
             </Routes>
           </main>
