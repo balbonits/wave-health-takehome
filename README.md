@@ -33,6 +33,22 @@ The application is deployed on Vercel and includes user listing, search, modal d
 - Vitest + React Testing Library for testing
 - JSONPlaceholder API for demo data
 
+## Architecture & Design Decisions
+
+**Build tooling**: Initially considered Next.js but found it more trouble than it's worth for this project since I didn't need SSR. Vite offered the simplicity I needed for rapid development with React & JSX and excellent hot module replacement. I'm gradually shifting my app development toward Next.js for future projects, but Vite was the right choice here.
+
+**Styling approach**: After coding CSS since 2008 and working with LESS, SASS, Material UI, and Bootstrap over the years, I find Tailwind fits my coding style well. I use custom classnames alongside Tailwind utilities - this hybrid approach gives me the speed of utilities but keeps class values readable. Long utility strings can be hard to parse, and my approach still allows for classical CSS development when needed.
+
+**Test co-location**: Placed test files alongside their corresponding components/pages rather than in a separate test directory. This makes it easier to maintain test coverage and quickly identify which components have tests when browsing the file structure.
+
+**Component modularization**: Could have built this as monolithic page components, but my coding philosophy emphasizes separation of concerns and DRY principles. Breaking things into smaller, focused components (ErrorBoundary, LoadingSpinner, Modal, etc.) makes the codebase more maintainable and testable.
+
+**Testing framework**: Since we're using Vite, I went with Vitest as it pairs seamlessly with the build system. The Jest-compatible API means familiar syntax without additional configuration overhead.
+
+**Data persistence strategy**: Deliberately chose localStorage over cookies to reduce dependency on server-side session management. This also mimics how data objects might be passed around in a real application - either within the app state or transmitted over the wire. It's a pattern I've been adopting to simplify client-side data flow.
+
+**Performance optimizations**: Implemented useMemo and other memoization techniques as both a learning exercise and to showcase evolving skills. While this project might not need heavy optimization, it demonstrates awareness of React performance patterns that become critical in larger applications.
+
 ## 📦 Installation & Setup
 
 1. **Clone the repository**
