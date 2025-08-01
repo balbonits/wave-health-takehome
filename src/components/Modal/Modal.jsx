@@ -1,6 +1,27 @@
+import { useEffect } from 'react';
 import './Modal.css';
 
 const Modal = ({ isOpen, toggleModal, title, children }) => {
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleEscKey = (event) => {
+      if (event.key === 'Escape') {
+        toggleModal();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscKey);
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscKey);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen, toggleModal]);
+
   if (!isOpen) return null;
 
   return (

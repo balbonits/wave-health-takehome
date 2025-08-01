@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+.spinner-container {
+  @apply flex flex-col items-center justify-center py-12;
+}
+
+.spinner {
+  @apply w-8 h-8 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin mb-4;
+}
+
+.spinner-message {
+  @apply text-gray-600 text-sm;
+}

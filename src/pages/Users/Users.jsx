@@ -3,6 +3,7 @@ import { useState, useMemo, useCallback } from 'react';
 import { useUsers } from '../../context/UserContext';
 import Modal from '../../components/Modal/Modal';
 import UserRow from './UserRow';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 import './Users.css';
 
@@ -65,9 +66,9 @@ const Users = () => {
     }
   }, []);
 
-  // Loading state
+  // Loading state (with spinner)
   if (loading) {
-    return <div className="loading">Loading users...</div>;
+    return <LoadingSpinner message="Loading users..." />;
   }
 
   // Error state

@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUsers } from '../../context/UserContext';
+import { useToast } from '../../hooks/useToast';
+import Toast from '../../components/Toast/Toast';
 import './AddUser.css';
 
 const AddUser = () => {
   const navigate = useNavigate();
   const { addUser } = useUsers();
+  const { toast, showToast, hideToast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -56,6 +59,20 @@ const AddUser = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      website: '',
+      street: '',
+      city: '',
+      zipcode: '',
+      company: ''
+    });
+    setErrors({});
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -71,11 +88,19 @@ const AddUser = () => {
       const newUser = await addUser(formData);
       console.log('User added:', newUser);
       
-      // Navigate back to users page
-      navigate('/');
+      // Show success toast
+      showToast(`User "${newUser.name}" added successfully!`, 'success');
+      
+      // Reset form
+      resetForm();
+      
+      // Navigate back to users page after a short delay
+      setTimeout(() => {
+        navigate('/');
+      }, 1000);
     } catch (error) {
       console.error('Error adding user:', error);
-      // TODO: Show error message to user
+      showToast('Failed to add user. Please try again.', 'error');
     } finally {
       setIsSubmitting(false);
     }
@@ -218,6 +243,14 @@ const AddUser = () => {
           </button>
         </div>
       </form>
+
+      {/* Toast notification */}
+      <Toast 
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={hideToast}
+      />
     </div>
   );
 };
