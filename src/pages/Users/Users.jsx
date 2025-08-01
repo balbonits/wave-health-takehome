@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 import { useUsers } from '../../context/UserContext';
 import Modal from '../../components/Modal/Modal';
+import UserRow from './UserRow';
 
 import './Users.css';
 
@@ -12,38 +13,49 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Filter users based on search term
-  const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  // Memoized normalized search term
+  const normalizedSearchTerm = useMemo(() => 
+    searchTerm.toLowerCase().trim(), 
+    [searchTerm]
   );
 
-  // Sort filtered users
-  const sortedUsers = [...filteredUsers].sort((a, b) => {
-    if (!sortConfig.key) return 0;
+  // Memoized filtered users
+  const filteredUsers = useMemo(() => 
+    users.filter(user => 
+      user.name.toLowerCase().includes(normalizedSearchTerm) ||
+      user.email.toLowerCase().includes(normalizedSearchTerm)
+    ), 
+    [users, normalizedSearchTerm]
+  );
 
-    const aValue = a[sortConfig.key];
-    const bValue = b[sortConfig.key];
+  // Memoized sorted users
+  const sortedUsers = useMemo(() => {
+    if (!sortConfig.key) return filteredUsers;
 
-    if (aValue < bValue) {
-      return sortConfig.direction === 'asc' ? -1 : 1;
-    }
-    if (aValue > bValue) {
-      return sortConfig.direction === 'asc' ? 1 : -1;
-    }
-    return 0;
-  });
+    return [...filteredUsers].sort((a, b) => {
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
 
-  const handleSort = (key) => {
-    let direction = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
+      if (aValue < bValue) {
+        return sortConfig.direction === 'asc' ? -1 : 1;
+      }
+      if (aValue > bValue) {
+        return sortConfig.direction === 'asc' ? 1 : -1;
+      }
+      return 0;
+    });
+  }, [filteredUsers, sortConfig]);
 
-  // Modal functions
-  const toggleModal = (user = null) => {
+  // Memoized sort handler
+  const handleSort = useCallback((key) => {
+    setSortConfig(prev => ({
+      key,
+      direction: prev.key === key && prev.direction === 'asc' ? 'desc' : 'asc'
+    }));
+  }, []);
+
+  // Memoized modal handlers
+  const toggleModal = useCallback((user = null) => {
     if (user) {
       setSelectedUser(user);
       setIsModalOpen(true);
@@ -51,7 +63,7 @@ const Users = () => {
       setSelectedUser(null);
       setIsModalOpen(false);
     }
-  };
+  }, []);
 
   // Loading state
   if (loading) {
@@ -85,6 +97,7 @@ const Users = () => {
           className="search-input"
         />
       </div>
+      
       {/* Users table */}
       <div className="users-table">
         <table className="table">
@@ -104,18 +117,11 @@ const Users = () => {
           </thead>
           <tbody>
             {sortedUsers.map(user => (
-              <tr 
-                key={user.id} 
-                className="table-row clickable-row"
-                onClick={() => toggleModal(user)}
-              >
-                <td className="table-cell">
-                  {user.name} {user.isLocal && <span className="local-badge">Local</span>}
-                </td>
-                <td className="table-cell">{user.email}</td>
-                <td className="table-cell">{user.phone}</td>
-                <td className="table-cell">{user.company?.name}</td>
-              </tr>
+              <UserRow 
+                key={user.id}
+                user={user}
+                onRowClick={toggleModal}
+              />
             ))}
           </tbody>
         </table>
