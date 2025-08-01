@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* Navigation */
 .nav {
   @apply bg-blue-600 text-white p-4;

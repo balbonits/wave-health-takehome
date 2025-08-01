@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+/* Header */
+.users-header {
+  @apply text-2xl font-bold mb-4;
+}
+
+
+/* Search */
+.search-container {
+  @apply mb-4;
+}
+
+.search-input {
+  @apply w-full max-w-md px-4 py-2 border border-gray-300 rounded-md 
+         focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none;
+}
+
+.no-results {
+  @apply text-center py-8 text-gray-500;
+}
+
+/* Users Table */
+.users-table {
+  @apply bg-white rounded-lg shadow overflow-hidden;
+}
+
+.table {
+  @apply w-full border-collapse;
+}
+
+.table-header {
+  @apply bg-gray-50 border-b border-gray-200;
+}
+
+.table-header th {
+  @apply px-3 py-3 text-left font-medium text-gray-700;
+}
+
+.table-row {
+  @apply border-b border-gray-100 hover:bg-gray-50 transition-colors;
+}
+
+.table-cell {
+  @apply px-3 py-3 text-gray-700;
+}
+
+.loading {
+  @apply text-center py-8 text-gray-500;
+}

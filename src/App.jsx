@@ -1,6 +1,6 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
-import Users from './pages/Users'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Users from './pages/Users/Users';
+import './App.css';
 
 const App = () => {
   return (
@@ -25,11 +25,11 @@ const App = () => {
         </main>
       </div>
     </BrowserRouter>
-  )
-}
+  );
+};
 
 const AddUser = () => {
-  return <div>Add User Form - Coming soon...</div>
-}
+  return <div>Add User Form - Coming soon...</div>;
+};
 
-export default App
+export default App;
