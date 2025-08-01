@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 
+import { getLocalUsers } from '../../utils/storage';
 import Modal from '../../components/Modal/Modal';
 
 import './Users.css';
@@ -12,18 +13,28 @@ const Users = () => {
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Fetch users from API
+  // Fetch users
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then(data => {
-        setUsers(data)
-        setLoading(false)
-      })
-      .catch(err => {
-        console.error('Error fetching users:', err)
-        setLoading(false)
-      });
+    const loadUsers = async () => {
+      try {
+        // from API
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        const apiUsers = await response.json();
+        
+        // from localStorage
+        const localUsers = getLocalUsers();
+        
+        // Combine API and localStorage results
+        const allUsers = [...apiUsers, ...localUsers];
+        setUsers(allUsers);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        setLoading(false);
+      }
+    };
+
+    loadUsers();
   }, []);
 
   // Filter users based on search term
@@ -57,9 +68,14 @@ const Users = () => {
   };
 
   // Modal functions
-  const toggleModal = (user) => {
-    setSelectedUser(user || null);
-    setIsModalOpen(!isModalOpen);
+  const toggleModal = (user = null) => {
+    if (user) {
+      setSelectedUser(user);
+      setIsModalOpen(true); // Always correct
+    } else {
+      setSelectedUser(null);
+      setIsModalOpen(false); // Always correct
+    }
   };
 
   // loading state
@@ -106,7 +122,9 @@ const Users = () => {
                 className="table-row clickable-row"
                 onClick={() => toggleModal(user)}
               >
-                <td className="table-cell">{user.name}</td>
+                <td className="table-cell">
+                  {user.name} {user.isLocal && <span className="local-badge">Local</span>}
+                </td>
                 <td className="table-cell">{user.email}</td>
                 <td className="table-cell">{user.phone}</td>
                 <td className="table-cell">{user.company?.name}</td>

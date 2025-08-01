@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { addLocalUser } from '../utils/storage';
 import './AddUser.css';
 
 const AddUser = () => {
@@ -61,15 +62,22 @@ const AddUser = () => {
 
     setIsSubmitting(true);
 
-    // TODO: Later we'll add API call or localStorage
-    // Simulate API delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    console.log('Form submitted:', formData);
-    
-    setIsSubmitting(false);
-    // Navigate back to users page
-    navigate('/users');
+    try {
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Save user to localStorage
+      const newUser = addLocalUser(formData);
+      console.log('User added:', newUser);
+      
+      // Navigate back to users page
+      navigate('/users');
+    } catch (error) {
+      console.error('Error adding user:', error);
+      // TODO: Show error message to user
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleCancel = () => {

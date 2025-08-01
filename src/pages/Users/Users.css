@@ -64,3 +64,7 @@
 .user-detail span {
   @apply text-gray-900;
 }
+
+.local-badge {
+  @apply bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full ml-2;
+}
